@@ -1,3 +1,3 @@
-const convertToInteger = (number) => parseInt(number, 10);
+const convertToInteger = (number) => Math.trunc(number);
 
 export default convertToInteger;
