@@ -1,3 +1,5 @@
+import convertToInteger from './utility';
+
 const checkPeriodType = (data) => {
   // number of infected persons double every 3days
 
@@ -5,19 +7,21 @@ const checkPeriodType = (data) => {
 
   switch (data.periodType) {
     case 'days':
-      numberOfSetsIn3DaysPeriod = parseInt(data.timeToElapse / 3, 10);
+      numberOfSetsIn3DaysPeriod = convertToInteger(data.timeToElapse / 3);
       break;
     case 'weeks':
-      numberOfSetsIn3DaysPeriod = parseInt((data.timeToElapse * 7) / 3, 10);
+      numberOfSetsIn3DaysPeriod = convertToInteger((data.timeToElapse * 7) / 3);
       break;
     case 'months':
-      numberOfSetsIn3DaysPeriod = parseInt((data.timeToElapse * 30) / 3, 10);
+      numberOfSetsIn3DaysPeriod = convertToInteger(
+        (data.timeToElapse * 30) / 3
+      );
       break;
     default:
-      numberOfSetsIn3DaysPeriod = parseInt(data.timeToElapse / 3, 10);
+      numberOfSetsIn3DaysPeriod = convertToInteger(data.timeToElapse / 3);
       break;
   }
   return numberOfSetsIn3DaysPeriod;
 };
 
-export default checkPeriodType;
+module.exports = checkPeriodType;

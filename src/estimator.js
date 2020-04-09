@@ -1,4 +1,5 @@
 import checkPeriodType from './checkPeriodType';
+import convertToInteger from './utility';
 
 const covid19ImpactEstimator = (data) => {
   const currentlyInfectedImpact = data.reportedCases * 10;
@@ -11,15 +12,30 @@ const covid19ImpactEstimator = (data) => {
   const infectionsTimeImpact = currentlyInfectedImpact * projectedInfected;
   const infectionsTimeSevere = currentlyInfectedSevere * projectedInfected;
 
+  const severeCasesImpact = convertToInteger(0.15 * infectionsTimeImpact);
+  const severeCasesSevere = convertToInteger(0.15 * infectionsTimeSevere);
+
+  const totalHospitalCapacity = data.totalHospitalBeds;
+
+  const expectedBedsForCovidPatients = convertToInteger(
+    0.35 * totalHospitalCapacity
+  );
+  const hospitalBedsImpact = expectedBedsForCovidPatients - severeCasesImpact;
+  const hospitalBedsSevere = expectedBedsForCovidPatients - severeCasesSevere;
+
   return {
     data,
     impact: {
       currentlyInfected: currentlyInfectedImpact,
-      infectionsByRequestedTime: infectionsTimeImpact
+      infectionsByRequestedTime: infectionsTimeImpact,
+      severeCasesByRequestedTime: severeCasesImpact,
+      hospitalBedsByRequestedTime: hospitalBedsImpact
     },
     severeImpact: {
       currentlyInfected: currentlyInfectedSevere,
-      infectionsByRequestedTime: infectionsTimeSevere
+      infectionsByRequestedTime: infectionsTimeSevere,
+      severeCasesByRequestedTime: severeCasesSevere,
+      hospitalBedsByRequestedTime: hospitalBedsSevere
     }
   };
 };
