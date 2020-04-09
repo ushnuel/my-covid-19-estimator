@@ -1,7 +1,9 @@
 import checkPeriodType from './checkPeriodType';
-import convertToInteger from './utility';
+// import convertToInteger from './utility';
 
 const covid19ImpactEstimator = (data) => {
+  // eslint-disable-next-line no-console
+  console.log('data', data);
   const currentlyInfectedImpact = data.reportedCases * 10;
   const currentlyInfectedSevere = data.reportedCases * 50;
 
@@ -12,14 +14,12 @@ const covid19ImpactEstimator = (data) => {
   const infectionsTimeImpact = currentlyInfectedImpact * projectedInfected;
   const infectionsTimeSevere = currentlyInfectedSevere * projectedInfected;
 
-  const severeCasesImpact = convertToInteger(0.15 * infectionsTimeImpact);
-  const severeCasesSevere = convertToInteger(0.15 * infectionsTimeSevere);
+  const severeCasesImpact = 0.15 * infectionsTimeImpact;
+  const severeCasesSevere = 0.15 * infectionsTimeSevere;
 
   const totalHospitalCapacity = data.totalHospitalBeds;
 
-  const expectedBedsForCovidPatients = convertToInteger(
-    0.35 * totalHospitalCapacity
-  );
+  const expectedBedsForCovidPatients = 0.35 * totalHospitalCapacity;
   const hospitalBedsImpact = expectedBedsForCovidPatients - severeCasesImpact;
   const hospitalBedsSevere = expectedBedsForCovidPatients - severeCasesSevere;
 
