@@ -1,9 +1,7 @@
-import checkPeriodType from './checkPeriodType';
-// import convertToInteger from './utility';
+const checkPeriodType = require('./checkPeriodType');
+const converToInteger = require('./utility');
 
 const covid19ImpactEstimator = (data) => {
-  // eslint-disable-next-line no-console
-  console.log('data', data);
   const currentlyInfectedImpact = data.reportedCases * 10;
   const currentlyInfectedSevere = data.reportedCases * 50;
 
@@ -20,8 +18,13 @@ const covid19ImpactEstimator = (data) => {
   const totalHospitalCapacity = data.totalHospitalBeds;
 
   const expectedBedsForCovidPatients = 0.35 * totalHospitalCapacity;
-  const hospitalBedsImpact = expectedBedsForCovidPatients - severeCasesImpact;
-  const hospitalBedsSevere = expectedBedsForCovidPatients - severeCasesSevere;
+
+  const hospitalBedsImpact = converToInteger(
+    expectedBedsForCovidPatients - severeCasesImpact
+  );
+  const hospitalBedsSevere = converToInteger(
+    expectedBedsForCovidPatients - severeCasesSevere
+  );
 
   return {
     data,
@@ -40,4 +43,4 @@ const covid19ImpactEstimator = (data) => {
   };
 };
 
-export default covid19ImpactEstimator;
+module.exports = covid19ImpactEstimator;

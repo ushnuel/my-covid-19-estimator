@@ -1,4 +1,4 @@
-import convertToInteger from './utility';
+const convertToInteger = require('./utility');
 
 const checkPeriodType = (data) => {
   // number of infected persons double every 3days
