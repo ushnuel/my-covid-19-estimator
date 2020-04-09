@@ -21,10 +21,10 @@ const covid19ImpactEstimator = (data) => {
 
   const expectedBedsForCovidPatients = 0.35 * totalHospitalCapacity;
 
-  const hospitalBedsImpact = Utility.converToInteger(
+  const hospitalBedsImpact = Utility.convertToInteger(
     expectedBedsForCovidPatients - severeCasesImpact
   );
-  const hospitalBedsSevere = Utility.converToInteger(
+  const hospitalBedsSevere = Utility.convertToInteger(
     expectedBedsForCovidPatients - severeCasesSevere
   );
 
