@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 const checkPeriodType = require('./checkPeriodType');
-const converToInteger = require('./utility');
+const Utility = require('./utility');
 
 const covid19ImpactEstimator = (data) => {
+  console.log('data', data);
   const currentlyInfectedImpact = data.reportedCases * 10;
   const currentlyInfectedSevere = data.reportedCases * 50;
 
@@ -19,11 +21,23 @@ const covid19ImpactEstimator = (data) => {
 
   const expectedBedsForCovidPatients = 0.35 * totalHospitalCapacity;
 
-  const hospitalBedsImpact = converToInteger(
+  const hospitalBedsImpact = Utility.converToInteger(
     expectedBedsForCovidPatients - severeCasesImpact
   );
-  const hospitalBedsSevere = converToInteger(
+  const hospitalBedsSevere = Utility.converToInteger(
     expectedBedsForCovidPatients - severeCasesSevere
+  );
+
+  const casesForICUImpact = 0.05 * infectionsTimeImpact;
+  const casesForICUSevere = 0.05 * infectionsTimeSevere;
+
+  const casesForVentilatorsImpact = 0.02 * infectionsTimeImpact;
+  const casesForVentilatorsSevere = 0.02 * infectionsTimeSevere;
+
+  const dollarsInFlight = Utility.calculateDollarsInFlight(
+    data,
+    infectionsTimeImpact,
+    infectionsTimeSevere
   );
 
   return {
@@ -32,13 +46,19 @@ const covid19ImpactEstimator = (data) => {
       currentlyInfected: currentlyInfectedImpact,
       infectionsByRequestedTime: infectionsTimeImpact,
       severeCasesByRequestedTime: severeCasesImpact,
-      hospitalBedsByRequestedTime: hospitalBedsImpact
+      hospitalBedsByRequestedTime: hospitalBedsImpact,
+      casesForICUByRequestedTime: casesForICUImpact,
+      casesForVentilatorsByRequestedTime: casesForVentilatorsImpact,
+      dollarsInFlight: dollarsInFlight.dollarsInFlightImpact
     },
     severeImpact: {
       currentlyInfected: currentlyInfectedSevere,
       infectionsByRequestedTime: infectionsTimeSevere,
       severeCasesByRequestedTime: severeCasesSevere,
-      hospitalBedsByRequestedTime: hospitalBedsSevere
+      hospitalBedsByRequestedTime: hospitalBedsSevere,
+      casesForICUByRequestedTime: casesForICUSevere,
+      casesForVentilatorsByRequestedTime: casesForVentilatorsSevere,
+      dollarsInFlight: dollarsInFlight.dollarsInFlightSevere
     }
   };
 };
