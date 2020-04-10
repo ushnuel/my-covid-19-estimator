@@ -15,7 +15,7 @@ const normalizeDurationToDays = (data) => {
       normalizedDuration = truncateNumber(data.timeToElapse * 30);
       break;
     default:
-      normalizedDuration = truncateNumber(data.timeToElapse / 3);
+      normalizedDuration = truncateNumber(data.timeToElapse);
       break;
   }
   return normalizedDuration;
@@ -29,16 +29,16 @@ const utility = {
 
     const normalizedDuration = normalizeDurationToDays(data);
 
-    // total income iN USD
+    // total daily income in USD
     const totalIncomeOfTheImpact =
       (infectionsImpact * avgDailyInc * avgDailyIncPop) / normalizedDuration;
 
     const totalIncomeOfTheSevere =
       (infectionsSevere * avgDailyInc * avgDailyIncPop) / normalizedDuration;
 
-    const dollarsInFlightImpact = totalIncomeOfTheImpact.toFixed(2);
+    const dollarsInFlightImpact = truncateNumber(totalIncomeOfTheImpact);
 
-    const dollarsInFlightSevere = totalIncomeOfTheSevere.toFixed(2);
+    const dollarsInFlightSevere = truncateNumber(totalIncomeOfTheSevere);
 
     return { dollarsInFlightImpact, dollarsInFlightSevere };
   },

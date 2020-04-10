@@ -25,11 +25,19 @@ const covid19ImpactEstimator = (data) => {
     expectedBedsForCovidPatients - severeCasesSevere
   );
 
-  const casesForICUImpact = 0.05 * infectionsTimeImpact;
-  const casesForICUSevere = 0.05 * infectionsTimeSevere;
+  const casesForICUImpact = Utility.convertToInteger(
+    0.05 * infectionsTimeImpact
+  );
+  const casesForICUSevere = Utility.convertToInteger(
+    0.05 * infectionsTimeSevere
+  );
 
-  const casesForVentilatorsImpact = 0.02 * infectionsTimeImpact;
-  const casesForVentilatorsSevere = 0.02 * infectionsTimeSevere;
+  const casesForVentilatorsImpact = Utility.convertToInteger(
+    0.02 * infectionsTimeImpact
+  );
+  const casesForVentilatorsSevere = Utility.convertToInteger(
+    0.02 * infectionsTimeSevere
+  );
 
   const dollarsInFlight = Utility.calculateDollarsInFlight(
     data,
