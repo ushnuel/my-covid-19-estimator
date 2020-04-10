@@ -5,11 +5,9 @@ const utility = {
   },
 
   calculateDollarsInFlight(data, infectionsImpact, infectionsSevere) {
-    const {
-      avgDailyIncome: avgDailyInc,
-      avgDailyIncomePopulation: avgDailyIncPop,
-      timeToElapse
-    } = data;
+    const { region, timeToElapse } = data;
+    const avgDailyInc = region.avgDailyIncomeInUSD;
+    const avgDailyIncPop = region.avgDailyIncomePopulation;
 
     const dollarsInFlightImpact = (
       infectionsImpact *
