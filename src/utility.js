@@ -1,33 +1,55 @@
 /* eslint-disable operator-linebreak */
-const utility = {
-  convertToInteger(number) {
-    return Math.trunc(number);
-  },
+const truncateNumber = (number) => Math.trunc(number);
 
+const normalizeDurationToDays = (data) => {
+  let normalizedDuration;
+
+  switch (data.periodType) {
+    case 'days':
+      normalizedDuration = truncateNumber(data.timeToElapse);
+      break;
+    case 'weeks':
+      normalizedDuration = truncateNumber(data.timeToElapse * 7);
+      break;
+    case 'months':
+      normalizedDuration = truncateNumber(data.timeToElapse * 30);
+      break;
+    default:
+      normalizedDuration = truncateNumber(data.timeToElapse / 3);
+      break;
+  }
+  return normalizedDuration;
+};
+
+const utility = {
   calculateDollarsInFlight(data, infectionsImpact, infectionsSevere) {
-    const { region, timeToElapse, population } = data;
+    const { region } = data;
     const avgDailyInc = region.avgDailyIncomeInUSD;
     const avgDailyIncPop = region.avgDailyIncomePopulation;
 
-    // total income iN USD
-    const totalIncomeOfThePopulation =
-      population * avgDailyInc * avgDailyIncPop * timeToElapse;
+    const normalizedDuration = normalizeDurationToDays(data);
 
+    // total income iN USD
     const totalIncomeOfTheImpact =
-      infectionsImpact * avgDailyInc * avgDailyIncPop * timeToElapse;
+      (infectionsImpact * avgDailyInc * avgDailyIncPop) / normalizedDuration;
 
     const totalIncomeOfTheSevere =
-      infectionsSevere * avgDailyInc * avgDailyIncPop * timeToElapse;
+      (infectionsSevere * avgDailyInc * avgDailyIncPop) / normalizedDuration;
 
-    const dollarsInFlightImpact = (
-      totalIncomeOfThePopulation - totalIncomeOfTheImpact
-    ).toFixed(2);
+    const dollarsInFlightImpact = totalIncomeOfTheImpact.toFixed(2);
 
-    const dollarsInFlightSevere = (
-      totalIncomeOfThePopulation - totalIncomeOfTheSevere
-    ).toFixed(2);
+    const dollarsInFlightSevere = totalIncomeOfTheSevere.toFixed(2);
 
     return { dollarsInFlightImpact, dollarsInFlightSevere };
+  },
+
+  calculateNumberOf3DaysSet(data) {
+    const numberOfSetsOf3DaysPeriod = normalizeDurationToDays(data);
+    return truncateNumber(numberOfSetsOf3DaysPeriod / 3);
+  },
+
+  convertToInteger(number) {
+    return truncateNumber(number);
   }
 };
 

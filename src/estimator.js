@@ -1,15 +1,12 @@
-/* eslint-disable no-console */
-const checkPeriodType = require('./checkPeriodType');
 const Utility = require('./utility');
 
 const covid19ImpactEstimator = (data) => {
-  console.log('data', data);
   const currentlyInfectedImpact = data.reportedCases * 10;
   const currentlyInfectedSevere = data.reportedCases * 50;
 
-  const numberOfSetsIn3DaysPeriod = checkPeriodType(data);
+  const numberOfSetsOf3DaysPeriod = Utility.calculateNumberOf3DaysSet(data);
 
-  const projectedInfected = 2 ** numberOfSetsIn3DaysPeriod;
+  const projectedInfected = 2 ** numberOfSetsOf3DaysPeriod;
 
   const infectionsTimeImpact = currentlyInfectedImpact * projectedInfected;
   const infectionsTimeSevere = currentlyInfectedSevere * projectedInfected;
