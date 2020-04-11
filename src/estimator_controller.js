@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 const xml = require('xml2js');
 const CovidEstimator = require('./estimator');
 
@@ -10,18 +10,23 @@ const estimateValue = (data) => CovidEstimator(data);
 
 const estimatorController = {
   estimate(req, res, next) {
-    const estimatedValues = estimateValue(req.body);
-    res.status(200).json({ data: estimatedValues });
-
-    return estimatedValues;
+    try {
+      console.log('request', req.body);
+      const estimatedValues = estimateValue(req.body);
+      res.status(200).json({ data: estimatedValues });
+    } catch (error) {
+      next(error);
+    }
   },
 
   estimateXml(req, res, next) {
-    const estimatedValues = estimateValue(req.body);
-    res.setHeader('Content-Type', 'application/xml');
-    res.status(200).send(builder.buildObject({ Root: estimatedValues }));
-
-    return estimatedValues;
+    try {
+      const estimatedValues = estimateValue(req.body);
+      res.setHeader('Content-Type', 'application/xml');
+      res.status(200).send(builder.buildObject({ Root: estimatedValues }));
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
