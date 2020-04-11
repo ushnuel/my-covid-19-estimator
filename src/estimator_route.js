@@ -13,12 +13,8 @@ const xmlOPtions = {
   mergeAttrs: true
 };
 
-router.post('/on-covid-19', EstimateController.estimate);
-router.post('/on-covid-19/json', EstimateController.estimate);
-router.post(
-  '/on-covid-19/xml',
-  xmlParser(xmlOPtions),
-  EstimateController.estimateXml
-);
+router.post('/', EstimateController.estimate);
+router.post('/json', EstimateController.estimate);
+router.post('/xml', xmlParser(xmlOPtions), EstimateController.estimateXml);
 
 module.exports = router;
