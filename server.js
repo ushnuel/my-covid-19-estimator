@@ -14,6 +14,11 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/api/v1', router);
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to my covid-19 estimator api'
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 
