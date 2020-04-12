@@ -11,7 +11,6 @@ const estimateValue = (data) => CovidEstimator(data);
 const estimatorController = {
   estimate(req, res, next) {
     try {
-      console.log('request', req.body);
       const estimatedValues = estimateValue(req.body);
       res.status(200).json({ data: estimatedValues });
     } catch (error) {
