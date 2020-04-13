@@ -13,7 +13,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'accept', 'content-type');
   next();
 });
-app.use('/api/v1', router);
+app.use('/api/v1/on-covid-19', router);
 app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to my covid-19 estimator api'
