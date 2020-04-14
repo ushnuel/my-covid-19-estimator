@@ -16,5 +16,6 @@ const xmlOPtions = {
 router.post('/', EstimateController.estimate);
 router.post('/json', EstimateController.estimate);
 router.post('/xml', xmlParser(xmlOPtions), EstimateController.estimateXml);
+router.get('/logs', EstimateController.logs);
 
 module.exports = router;
